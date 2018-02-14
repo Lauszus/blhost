@@ -19,5 +19,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install hidapi; fi
 
 script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project validation/blhost.xcodeproj; fi
   - cd validation/blhost/gcc
   - make -j2
