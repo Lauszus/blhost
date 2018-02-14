@@ -1,0 +1,23 @@
+language: cpp
+
+sudo: false
+
+compiler:
+  - gcc
+
+os:
+  - linux
+  - osx
+
+addons:
+  apt:
+    packages:
+      - libudev-dev
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update        ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install hidapi; fi
+
+script:
+  - cd validation/blhost/gcc
+  - make -j2
