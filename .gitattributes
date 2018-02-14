@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+* text eol=lf
+
+# Except for Windows Visual Studio project files
+*.sln text eol=crlf
