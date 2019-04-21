@@ -1,5 +1,24 @@
+configuration: Release
+
 before_build:
   - cd validation\blhost
 
 build:
   parallel: true
+  verbosity: minimal
+
+after_build:
+  - ps: Rename-Item -Path ".\${env:configuration}\blhost.exe" -NewName "blhost-win.exe"
+
+artifacts:
+  - path: validation\blhost\$(configuration)\blhost-win.exe
+    name: blhost-win.exe
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: arEvoKdPUgzPQ2WehvUQPS6RpiUB35op7NN1a2mhvfdwmB/AnRFK3R0fackxKX+w
+  artifact: blhost-win.exe
+  draft: true
+  on:
+    APPVEYOR_REPO_TAG: true

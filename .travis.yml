@@ -5,9 +5,17 @@ sudo: false
 compiler:
   - gcc
 
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+      env: TOXENV=amd64
+    - os: linux
+      env: TOXENV=armv7l
+    - os: osx
+      env: TOXENV=mac
+
+services:
+  - docker
 
 addons:
   apt:
@@ -20,5 +28,26 @@ before_install:
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project validation/blhost.xcodeproj; fi
-  - cd validation/blhost/gcc
-  - make -j2
+  - if [[ "$TOXENV" == "armv7l" ]]; then
+      docker build -t lauszus/blhost .;
+      CONTAINER_ID=$(docker create lauszus/blhost);
+      mkdir -p validation/blhost/gcc/Release
+      docker cp $CONTAINER_ID:/validation/blhost/gcc/Release/blhost validation/blhost/gcc/Release/blhost;
+    else
+      make -j2 -C validation/blhost/gcc;
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      mv validation/blhost/gcc/Release/blhost blhost-$TOXENV;
+    else
+      mv validation/blhost/gcc/Release/blhost blhost-linux-$TOXENV;
+    fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: QqRXxTWE3ZxY6Jr6cFbOSMKhoDVHpE7tOGl3EcbgOfQ8oWczgN3xgoXQKKictK4hjXeX+9GuBIhHMdCLHalZ3EOyelNEG/UJ8bE7h3XWPB2Qp7jzgRriM1NvDo7uhvqoAAQr05ZQVBWyKsS980rLxncDlmRLVJbH8RmvlwB0PRVd1AOUsdkTbK9FkiWb/DpAsK21GLn6B/A+31SHqprXneivrFaQ+aNpyRvB9u3xOWEZ8xu68xwGl+xQvr5H+uvYfrgYgkxOoIXOjDFi3bEZ2gIA9ntSBM8J9veFlWnoO5Yr3sQuZRhBZBCVWykfAggvq1dx8hMAMCfNWPBM6SH3UJfi9sChurId75S5MstJec7w4STMfKQmhJvKvs985JAyAkSzdNOLYXwBvR94U+UEpLFN1RNESadnQY/+1t36Egy6b5lN+5G1cSeRNQXpvoNXr61XdTaDWaX/Fag3KNzc43QJJJ1bDwO15g9epNGVCmUQGIZ1dGakz/H6jjiXMaLSHh4VIKevhf5lUIQ/Qz6+MdT+tPX9jEX7jWbGQ87/eys+zRal6K1LmaQVhks1Hm8x4eyXdjaY7VuYjbkPUWeqJGdQ2cIAFICSZw+xCxokQzGVWL28Y6a47dB3cUsPyvTO/lqsXB4JKwyIGighLkoBEj7GpSmlGMvximFnltXy7BY=
+  file_glob: true
+  file: "blhost-*"
+  skip_cleanup: true
+  on:
+    tags: true
