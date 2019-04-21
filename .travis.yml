@@ -31,7 +31,7 @@ script:
   - if [[ "$TOXENV" == "armv7l" ]]; then
       docker build -t lauszus/blhost .;
       CONTAINER_ID=$(docker create lauszus/blhost);
-      mkdir -p validation/blhost/gcc/Release
+      mkdir -p validation/blhost/gcc/Release;
       docker cp $CONTAINER_ID:/validation/blhost/gcc/Release/blhost validation/blhost/gcc/Release/blhost;
     else
       make -j2 -C validation/blhost/gcc;
