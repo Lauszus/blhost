@@ -77,7 +77,7 @@ SOURCES := $(BOOT_ROOT)/validation/blhost/src/blhost.cpp \
 		   $(BOOT_ROOT)/src/blfwk/src/utils.cpp \
 		   $(BOOT_ROOT)/src/blfwk/src/Value.cpp \
 		   $(BOOT_ROOT)/src/crc/src/crc16.c \
-		   $(BOOT_ROOT)/src/crc/src/crc32.c \
+		   $(BOOT_ROOT)/src/crc/src/crc32.c
 		   #$(BOOT_ROOT)/src/blfwk/src/Simulator.cpp
 		   #$(BOOT_ROOT)/src/blfwk/src/SimulatorMemory.cpp
 		   #$(BOOT_ROOT)/src/blfwk/src/SimPacketizer.cpp

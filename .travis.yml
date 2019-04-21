@@ -7,12 +7,14 @@ compiler:
 
 matrix:
   include:
-    - os: linux
-      env: TOXENV=amd64
-    - os: linux
-      env: TOXENV=armv7l
     - os: osx
-      env: TOXENV=mac
+      env: PLATFORM=mac DOCKERBUILD=0
+    - os: linux
+      env: PLATFORM=amd64 DOCKERBUILD=0
+    - os: linux
+      env: PLATFORM=i386 DOCKERBUILD=1
+    - os: linux
+      env: PLATFORM=armv7l DOCKERBUILD=1
 
 services:
   - docker
@@ -28,18 +30,18 @@ before_install:
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project validation/blhost.xcodeproj; fi
-  - if [[ "$TOXENV" == "armv7l" ]]; then
-      docker build -t lauszus/blhost .;
+  - if [[ "$DOCKERBUILD" == "1" ]]; then
+      docker build -f Dockerfile.$PLATFORM -t lauszus/blhost .;
       CONTAINER_ID=$(docker create lauszus/blhost);
       mkdir -p validation/blhost/gcc/Release;
-      docker cp $CONTAINER_ID:/validation/blhost/gcc/Release/blhost validation/blhost/gcc/Release/blhost;
+      docker cp $CONTAINER_ID:/lauszus-blhost/validation/blhost/gcc/Release/blhost validation/blhost/gcc/Release/blhost;
     else
       make -j2 -C validation/blhost/gcc;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      mv validation/blhost/gcc/Release/blhost blhost-$TOXENV;
+      mv validation/blhost/gcc/Release/blhost blhost-$PLATFORM;
     else
-      mv validation/blhost/gcc/Release/blhost blhost-linux-$TOXENV;
+      mv validation/blhost/gcc/Release/blhost blhost-linux-$PLATFORM;
     fi
 
 deploy:

@@ -1,6 +1,6 @@
 FROM balenalib/armv7hf-debian:stretch
 
-COPY . /
+COPY . /lauszus-blhost
 
 RUN [ "cross-build-start" ]
 
@@ -8,6 +8,6 @@ RUN apt-get update
 RUN apt-get install -y apt-utils
 RUN apt-get install -y build-essential libudev-dev
 
-RUN cd validation/blhost/gcc && make clean && make -j$(nproc)
+RUN make -j$(nproc) -C /lauszus-blhost/validation/blhost/gcc
 
 RUN [ "cross-build-end" ]

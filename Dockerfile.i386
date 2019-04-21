@@ -1,0 +1,8 @@
+FROM i386/centos:centos7
+
+COPY . /lauszus-blhost
+
+RUN yum -y update
+RUN yum -y install gcc gcc-c++ make libudev-devel
+
+RUN linux32 --32bit i386 make -j$(nproc) -C /lauszus-blhost/validation/blhost/gcc
