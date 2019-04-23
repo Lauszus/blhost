@@ -29,10 +29,6 @@
 
 #include "blfwk/serial.h"
 
-#ifdef LINUX
-#include <termios.h>
-#endif
-
 int serial_setup(int fd, speed_t speed)
 {
 #if defined(WIN32)
@@ -73,6 +69,7 @@ int serial_setup(int fd, speed_t speed)
 
 #elif defined(LINUX)
     struct termios tty;
+    int custom_speed = 0;
 
     memset(&tty, 0, sizeof(tty));
     cfmakeraw(&tty);
@@ -93,25 +90,41 @@ int serial_setup(int fd, speed_t speed)
         case 38400:
             speed = B38400;
             break;
+        case 57600:
+            speed = B57600;
+            break;
         case 115200:
             speed = B115200;
             break;
         case 230400:
             speed = B230400;
             break;
-        case 57600:
         default:
-            speed = B57600;
+            custom_speed = 1;
             break;
     }
 
-    if (cfsetospeed(&tty, speed) < 0)
+    if (custom_speed)
     {
-        return -1;
+        if (cfsetospeed_custom(&tty, speed) < 0)
+        {
+            return -1;
+        }
+        if (cfsetispeed_custom(&tty, speed) < 0)
+        {
+            return -1;
+        }
     }
-    if (cfsetispeed(&tty, speed) < 0)
+    else
     {
-        return -1;
+        if (cfsetospeed(&tty, speed) < 0)
+        {
+            return -1;
+        }
+        if (cfsetispeed(&tty, speed) < 0)
+        {
+            return -1;
+        }
     }
 
     // Completely non-blocking read
