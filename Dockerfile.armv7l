@@ -9,5 +9,6 @@ RUN apt-get install -y apt-utils
 RUN apt-get install -y build-essential libudev-dev
 
 RUN make -j$(nproc) -C /lauszus-blhost/validation/blhost/gcc
+RUN strip /lauszus-blhost/validation/blhost/gcc/Release/blhost
 
 RUN [ "cross-build-end" ]
