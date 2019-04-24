@@ -64,6 +64,10 @@
 		3B8BB84B1BD17B73000EFB8B /* rijndael.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BB8431BD17B73000EFB8B /* rijndael.cpp */; };
 		3B8BB84C1BD17B73000EFB8B /* RijndaelCTR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BB8441BD17B73000EFB8B /* RijndaelCTR.cpp */; };
 		3B8BB84D1BD17B73000EFB8B /* StIntelHexFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BB8451BD17B73000EFB8B /* StIntelHexFile.cpp */; };
+		6F10EA7C226F93190069B862 /* term.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F10EA78226F93190069B862 /* term.c */; };
+		6F10EA7D226F93190069B862 /* custbaud.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F10EA79226F93190069B862 /* custbaud.c */; };
+		6F10EA7E226F93190069B862 /* custbaud_bsd.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F10EA7A226F93190069B862 /* custbaud_bsd.c */; };
+		6F10EA7F226F93190069B862 /* termios2.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F10EA7B226F93190069B862 /* termios2.c */; };
 		BF49F39A17F34E8B00A0B079 /* crc16.c in Sources */ = {isa = PBXBuildFile; fileRef = BF49F39917F34E8B00A0B079 /* crc16.c */; };
 		BFB431BF000005C8007086B9 /* hid-mac.c in Sources */ = {isa = PBXBuildFile; fileRef = BFB431BE000005C8007086B9 /* hid-mac.c */; };
 /* End PBXBuildFile section */
@@ -195,6 +199,10 @@
 		3B8BB8581BD17B9B000EFB8B /* smart_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smart_ptr.h; sourceTree = "<group>"; };
 		3B8BB8591BD17B9B000EFB8B /* SRecordSourceFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRecordSourceFile.h; sourceTree = "<group>"; };
 		3B8BB85A1BD17B9B000EFB8B /* StIntelHexFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StIntelHexFile.h; sourceTree = "<group>"; };
+		6F10EA78226F93190069B862 /* term.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = term.c; sourceTree = "<group>"; };
+		6F10EA79226F93190069B862 /* custbaud.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = custbaud.c; sourceTree = "<group>"; };
+		6F10EA7A226F93190069B862 /* custbaud_bsd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = custbaud_bsd.c; sourceTree = "<group>"; };
+		6F10EA7B226F93190069B862 /* termios2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = termios2.c; sourceTree = "<group>"; };
 		BF49F39817F34E7900A0B079 /* crc16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc16.h; sourceTree = "<group>"; };
 		BF49F39917F34E8B00A0B079 /* crc16.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc16.c; sourceTree = "<group>"; };
 		BFB431BC00000484007086B9 /* hidapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hidapi.h; sourceTree = "<group>"; };
@@ -391,6 +399,7 @@
 		02C6C97816FE4AC40023EB1B /* src */ = {
 			isa = PBXGroup;
 			children = (
+				6F10EA80226F93290069B862 /* picocom */,
 				02528C1416FE308F0026B4C2 /* blfwk */,
 				020F8981175E4DB5009F0B96 /* crc */,
 				02C6C97C16FE4AF80023EB1B /* include */,
@@ -407,6 +416,17 @@
 				02892055170A1957007D3438 /* bootloader_common.h */,
 			);
 			path = include;
+			sourceTree = "<group>";
+		};
+		6F10EA80226F93290069B862 /* picocom */ = {
+			isa = PBXGroup;
+			children = (
+				6F10EA7A226F93190069B862 /* custbaud_bsd.c */,
+				6F10EA79226F93190069B862 /* custbaud.c */,
+				6F10EA78226F93190069B862 /* term.c */,
+				6F10EA7B226F93190069B862 /* termios2.c */,
+			);
+			path = picocom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				02528C3F16FE32760026B4C2 /* blhost.cpp in Sources */,
+				6F10EA7D226F93190069B862 /* custbaud.c in Sources */,
 				04957CA71AA8CDF10083BEDA /* Updater.cpp in Sources */,
 				04957CA21AA8CDF10083BEDA /* SRecordSourceFile.cpp in Sources */,
 				02528C4316FE32880026B4C2 /* options.cpp in Sources */,
@@ -471,6 +492,7 @@
 				04957C911AA8CDF10083BEDA /* BusPalPeripheral.cpp in Sources */,
 				04957C901AA8CDF10083BEDA /* BusPal.cpp in Sources */,
 				04957C921AA8CDF10083BEDA /* Command.cpp in Sources */,
+				6F10EA7F226F93190069B862 /* termios2.c in Sources */,
 				04957C981AA8CDF10083BEDA /* GHSSecInfo.cpp in Sources */,
 				3B8BB84D1BD17B73000EFB8B /* StIntelHexFile.cpp in Sources */,
 				3B8BB84C1BD17B73000EFB8B /* RijndaelCTR.cpp in Sources */,
@@ -484,6 +506,7 @@
 				3B8BB8471BD17B73000EFB8B /* AESKey.cpp in Sources */,
 				3B8BB8461BD17B73000EFB8B /* AESCounter.cpp in Sources */,
 				04957C941AA8CDF10083BEDA /* DataSourceImager.cpp in Sources */,
+				6F10EA7C226F93190069B862 /* term.c in Sources */,
 				04957C9A1AA8CDF10083BEDA /* SBSourceFile.cpp in Sources */,
 				020F8999175E4DB5009F0B96 /* crc32.c in Sources */,
 				BFB431BF000005C8007086B9 /* hid-mac.c in Sources */,
@@ -501,6 +524,7 @@
 				3B8BB8491BD17B73000EFB8B /* IntelHexSourceFile.cpp in Sources */,
 				02558D3C17D7B05100D3721D /* format_string.cpp in Sources */,
 				04957C8F1AA8CDF10083BEDA /* Bootloader.cpp in Sources */,
+				6F10EA7E226F93190069B862 /* custbaud_bsd.c in Sources */,
 				04957C991AA8CDF10083BEDA /* GlobMatcher.cpp in Sources */,
 				BF49F39A17F34E8B00A0B079 /* crc16.c in Sources */,
 				04957CA41AA8CDF10083BEDA /* StExecutableImage.cpp in Sources */,
@@ -527,6 +551,7 @@
 					.,
 					../src/drivers/common,
 					../src/bm_usb,
+					../src/picocom,
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -542,6 +567,7 @@
 					.,
 					../src/drivers/common,
 					../src/bm_usb,
+					../src/picocom,
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -593,6 +619,7 @@
 					../src,
 					../src/include,
 					.,
+					../src/picocom,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -629,6 +656,7 @@
 					../src,
 					../src/include,
 					.,
+					../src/picocom,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;

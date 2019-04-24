@@ -34,6 +34,7 @@ INCLUDES += $(BOOT_ROOT)/validation/blhost/src \
 			$(BOOT_ROOT)/src/bootloader \
 			$(BOOT_ROOT)/src/crc \
 			$(BOOT_ROOT)/src/packet \
+			$(BOOT_ROOT)/src/picocom \
 			$(BOOT_ROOT)/src/property \
 			$(BOOT_ROOT)/src/drivers/common \
 			$(BOOT_ROOT)/src/bm_usb
@@ -77,7 +78,11 @@ SOURCES := $(BOOT_ROOT)/validation/blhost/src/blhost.cpp \
 		   $(BOOT_ROOT)/src/blfwk/src/utils.cpp \
 		   $(BOOT_ROOT)/src/blfwk/src/Value.cpp \
 		   $(BOOT_ROOT)/src/crc/src/crc16.c \
-		   $(BOOT_ROOT)/src/crc/src/crc32.c
+		   $(BOOT_ROOT)/src/crc/src/crc32.c \
+		   $(BOOT_ROOT)/src/picocom/custbaud.c \
+		   $(BOOT_ROOT)/src/picocom/custbaud_bsd.c \
+		   $(BOOT_ROOT)/src/picocom/term.c \
+		   $(BOOT_ROOT)/src/picocom/termios2.c
 		   #$(BOOT_ROOT)/src/blfwk/src/Simulator.cpp
 		   #$(BOOT_ROOT)/src/blfwk/src/SimulatorMemory.cpp
 		   #$(BOOT_ROOT)/src/blfwk/src/SimPacketizer.cpp
@@ -104,8 +109,8 @@ endif
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	CXXFLAGS += -D LINUX
-	CFLAGS += -D LINUX
+	CXXFLAGS += -D LINUX -D USE_CUSTOM_BAUD
+	CFLAGS += -D LINUX -D USE_CUSTOM_BAUD
 	SOURCES += $(BOOT_ROOT)/src/blfwk/src/hid-linux.c
 	LDFLAGS += -ludev
 endif

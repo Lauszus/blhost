@@ -30,6 +30,10 @@ before_install:
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project validation/blhost.xcodeproj; fi
+  # Docker is used for cross compiling the binaries for 32-bit Linux and armv7l.
+  # Build the image, create a container from the image and get the container ID,
+  # then make the directory, as this is normally created automatically using Make.
+  # Finally copy over the compiled binary to the host.
   - if [[ "$DOCKERBUILD" == "1" ]]; then
       docker build -f Dockerfile.$PLATFORM -t lauszus/blhost .;
       CONTAINER_ID=$(docker create lauszus/blhost);
@@ -37,7 +41,9 @@ script:
       docker cp $CONTAINER_ID:/lauszus-blhost/validation/blhost/gcc/Release/blhost validation/blhost/gcc/Release/blhost;
     else
       make -j2 -C validation/blhost/gcc;
+      strip validation/blhost/gcc/Release/blhost;
     fi
+  # Rename the binary, so the platform is part of the name.
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       mv validation/blhost/gcc/Release/blhost blhost-$PLATFORM;
     else
