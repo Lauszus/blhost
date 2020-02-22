@@ -298,16 +298,15 @@ static int get_string_property_utf8(IOHIDDeviceRef device, CFStringRef prop, cha
 {
     CFStringRef str = IOHIDDeviceGetProperty(device, prop);
 
-    buf[0] = 0x0000;
+    memset(buf, 0, len);
 
     if (str)
     {
         CFRange range;
         range.location = 0;
-        range.length = len;
+        range.length = CFStringGetLength(str);
         CFIndex used_buf_len;
         CFStringGetBytes(str, range, kCFStringEncodingUTF8, (char)'?', FALSE, (UInt8 *)buf, len, &used_buf_len);
-        buf[len - 1] = 0x00000000;
         return used_buf_len;
     }
     else
