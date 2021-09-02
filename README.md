@@ -7,6 +7,8 @@ _________
 
 This repository contains the changes I have made to blhost, which is part of [KBOOT](https://www.nxp.com/support/developer-resources/reference-designs/kinetis-bootloader:KBOOT) from NXP.
 
+I have also developed a Python version, which supports uploading via serial and CAN-Bus: <https://github.com/Lauszus/pyblhost>.
+
 ### Changes
 
 * Can now compile the code using GCC on Mac
